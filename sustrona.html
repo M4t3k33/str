@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Przegląd planów SU — Rok szkolny</title>
+  <meta name="description" content="Przegląd planów Samorządu Uczniowskiego — miesięczne wydarzenia i inicjatywy." />
+  <style>
+    :root{
+      --bg:#0f1724; --card:#0b1220; --accent:#7c3aed; --muted:#98a0b3; --glass:rgba(255,255,255,0.04);
+      --success:#22c55e; --danger:#ef4444; --max-width:1100px;
+      font-synthesis: none;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;padding:24px;background:linear-gradient(180deg,#071127 0%, #071936 40%, #081226 100%);color:#e6eef8;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+      -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;display:flex;justify-content:center;
+    }
+    .wrap{width:100%;max-width:var(--max-width);}
+
+    header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+    .brand{display:flex;gap:14px;align-items:center}
+    .logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#06b6d4);display:flex;align-items:center;justify-content:center;font-weight:700;color:white;font-size:20px;box-shadow:0 6px 24px rgba(0,0,0,.5)}
+    h1{margin:0;font-size:20px}
+    p.lead{margin:0;color:var(--muted);font-size:13px}
+
+    .controls{display:flex;gap:10px;align-items:center}
+    .btn{background:var(--accent);color:white;padding:8px 12px;border-radius:10px;border:0;cursor:pointer;font-weight:600}
+    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
+
+    main{display:grid;grid-template-columns:360px 1fr;gap:18px}
+
+    /* sidebar */
+    aside{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:16px;border-radius:12px;min-height:520px}
+    .month-list{display:flex;flex-direction:column;gap:8px}
+    .month-item{display:flex;justify-content:space-between;align-items:center;padding:12px;border-radius:10px;background:var(--glass);cursor:pointer;transition:transform .15s ease, box-shadow .15s ease, outline-color .15s ease}
+    .month-item:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(0,0,0,.25)}
+    .month-item.active{outline:2px solid rgba(124,58,237,0.28);box-shadow:0 10px 24px rgba(124,58,237,0.12)}
+    .small{font-size:13px;color:var(--muted)}
+
+    /* content area */
+    section.content{min-height:520px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:20px;border-radius:14px;margin-bottom:14px;border:1px solid rgba(255,255,255,0.04)}
+    .card h2{margin:0 0 6px 0}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+
+    .event{background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.04);transition:transform .15s ease, box-shadow .15s ease}
+    .event:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(0,0,0,.28)}
+    .event h3{margin:0;font-size:15px}
+    .meta{font-size:13px;color:var(--muted);margin-top:6px}
+    .pill{display:inline-block;padding:4px 8px;border-radius:999px;background:rgba(255,255,255,0.03);font-size:12px;margin-right:6px}
+
+    .big-actions{display:flex;gap:10px;margin-bottom:12px}
+
+    footer{color:var(--muted);font-size:12px;margin-top:8px;text-align:center}
+
+    /* mobile month scroller hidden by default */
+    .month-scroller{display:none}
+    .month-scroller{position:sticky;top:0;z-index:20}
+    .month-scroller .month-list{scroll-snap-type:x mandatory}
+    .month-scroller .month-item{scroll-snap-align:start}
+
+    /* responsive */
+    @media (max-width:980px){
+      main{grid-template-columns:1fr;gap:12px}
+      aside{display:none}
+      section.content{order:1}
+      body{padding:16px}
+      .grid{grid-template-columns:1fr}
+      .month-scroller{display:block}
+      .controls{width:100%}
+      .btn{width:100%}
+    }
+
+    /* mobile tweaks */
+    @media (max-width:600px){
+      header{flex-direction:column;align-items:flex-start;gap:10px}
+      .controls{width:100%;justify-content:stretch}
+      .btn{width:100%;padding:12px 14px;border-radius:12px}
+      aside{display:none}
+      .card{padding:16px;border-radius:12px}
+      .brand .logo{width:48px;height:48px;font-size:18px}
+      h1{font-size:18px}
+      p.lead{font-size:12px}
+      .month-scroller{display:block}
+      .month-scroller .month-list{flex-direction:row;overflow-x:auto;gap:10px;padding:6px 2px}
+      .month-scroller .month-list::-webkit-scrollbar{height:6px}
+      .month-scroller .month-item{min-width:180px}
+      .grid{grid-template-columns:1fr}
+      .event{padding:12px}
+    }
+
+    /* small animations */
+    .fade{animation:fadeIn .28s ease-out}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+    /* campaign / printable */
+    @media print{body{background:white;color:black} .btn{display:none} header,aside{display:none} .card{box-shadow:none;border:1px solid #00000010}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo">SU</div>
+        <div>
+          <h1>Plany SU — przegląd miesięczny</h1>
+          <p class="lead">Przegląd wydarzeń i inicjatyw od września do czerwca.</p>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button id="printBtn" class="btn">Drukuj / PDF</button>
+      </div>
+    </header>
+
+    <main>
+      <aside class="fade">
+        <div class="card">
+          <h2>Na rok szkolny</h2>
+          <p class="small">Kliknij miesiąc by zobaczyć szczegóły.</p>
+        </div>
+
+        
+
+        <div class="card">
+          <h3>Lista miesięcy</h3>
+          <div class="month-list" id="monthList"></div>
+        </div>
+      </aside>
+
+      <section class="content">
+        <div class="card big-actions">
+          <div style="flex:1">
+            <h2 id="activeMonthTitle">Wybierz miesiąc</h2>
+            <p class="small">Kliknij miesiąc po lewej, by zobaczyć plan.</p>
+          </div>
+        </div>
+
+        <div class="card month-scroller">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+            <h3 style="margin:0">Miesiące</h3>
+            <div class="small" id="activeMonthShort"></div>
+          </div>
+          <div class="month-list" id="monthListMobile"></div>
+        </div>
+
+        <div id="monthContent"></div>
+
+        <div class="card">
+          <h2>Inicjatywy całoroczne</h2>
+          <div class="grid" id="yearWide">
+            <!-- items appended by JS -->
+          </div>
+        </div>
+
+        <footer>
+          Przegląd planów SU — drukuj lub udostępnij.
+        </footer>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    // DATA: Plan miesięczny
+    const PLAN = [
+      {
+        id: '09', title: 'Wrzesień', subtitle: 'Start i integracja',
+        highlights:[
+          {type:'event', title:'Ankieta startowa', desc:'Formularz online: "Co chcecie zmienić?". Szybkie priorytety.', goals:['zdiagnozować potrzeby','wybrać top 5 spraw do akcji']},
+          {type:'event', title:'Dzień bez plecaka', desc:'Integracja i zabawa, start Bitwy Klas.', goals:['integracja','promocja kampanii']},
+          {type:'event', title:'Bitwa Klas – start', desc:'Ogłoszenie zasad, punktacja i nagrody', goals:['motywacja klas','system nagród']},
+          {type:'event', title:'Warsztaty „Poznaj szkołę”', desc:'Gra terenowa dla nowych uczniów, zadania i nagrody.'}
+        ]
+      },
+      {
+        id:'10', title:'Październik', subtitle:'Kreatywność i klimat', highlights:[
+          {type:'event', title:'Halloween Party / Dyskoteka', desc:'Przebrania, konkursy, DJ lub playlista od uczniów.', goals:['integracja','zabawa']},
+          {type:'event', title:'Escape Room w szkole', desc:'Klasy tworzą pokoje zagadek, rywalizacja.', goals:['kreatywność','współpraca']},
+          {type:'sport', title:'Turniej siatkówki', desc:'Międzyklasowe rozgrywki.'},
+          {type:'charytatywne', title:'Kawiarenka charytatywna', desc:'Dochód na cele szkolne lub pomoc lokalną.'}
+        ]
+      },
+      {
+        id:'11', title:'Listopad', subtitle:'Pasje i talenty', highlights:[
+          {type:'kultura', title:'Talent Show & Open Mic', desc:'Scena dla muzyków, raperów, stand-uperów.', goals:['promocja talentów','zbudować scenę uczniowską']},
+          {type:'kultura', title:'Konkurs fotograficzny', desc:'"Jesień w obiektywie" — wystawa najlepszych prac.'},
+          {type:'event', title:'Wieczór filmowy', desc:'Maraton filmów lub tematyczny seans.'},
+          {type:'event', title:'Konkurs literacki', desc:'Wiersz lub mini-opowiadanie.'}
+        ]
+      },
+      {
+        id:'12', title:'Grudzień', subtitle:'Magia i święta', highlights:[
+          {type:'charytatywne', title:'Kiermasz świąteczny', desc:'Stoiskowe kluby, ciasta, ozdoby; dochód dla potrzebujących.'},
+          {type:'event', title:'Konkurs dekoracji klas', desc:'Nagrody za najlepszą aranżację świąteczną.'},
+          {type:'kultura', title:'Świąteczny koncert', desc:'Kolędy, szkolne zespoły.'},
+          {type:'charytatywne', title:'Zbiórka dla potrzebujących', desc:'Prezenty/artykuły dla lokalnych organizacji.'}
+        ]
+      },
+      {
+        id:'01', title:'Styczeń', subtitle:'Luz przed feriami', highlights:[
+          {type:'event', title:'Planszówkowe przerwy', desc:'Wypożyczalnia gier, mini-turnieje.'},
+          {type:'event', title:'Turniej FIFA/Minecraft', desc:'LAN party lub online.'},
+          {type:'event', title:'Konkurs memów szkolnych', desc:'Wyróżnienia i nagrody.'},
+          {type:'event', title:'Pajama Day', desc:'Na luzie przed feriami.'}
+        ]
+      },
+      {
+        id:'02', title:'Luty', subtitle:'Miłość i ekipa', highlights:[
+          {type:'event', title:'Poczta Walentynkowa', desc:'Kartki i niespodzianki.'},
+          {type:'event', title:'Dyskoteka walentynkowa', desc:'Playlist od uczniów, foto corner.'},
+          {type:'sport', title:'Turniej koszykówki', desc:'3v3 międzyklasowe.'}
+        ]
+      },
+      {
+        id:'03', title:'Marzec', subtitle:'Eko i wiosna', highlights:[
+          {type:'charytatywne', title:'Akcja "Eko-Szkoła"', desc:'Sprzątanie okolicy, sadzenie roślin.'},
+          {type:'event', title:'Dzień bez plastiku', desc:'Promocja butelek wielokrotnego użytku.'},
+          {type:'event', title:'Turniej szachów', desc:'Liga szachowa w szkole.'}
+        ]
+      },
+      {
+        id:'04', title:'Kwiecień', subtitle:'Kultura i sztuka', highlights:[
+          {type:'kultura', title:'Tydzień Kultury', desc:'5 dni tematycznych: muzyka, teatr, sztuka, film, gaming.'},
+          {type:'kultura', title:'Warsztaty artystyczne', desc:'Graffiti, malarstwo, origami.'},
+          {type:'event', title:'Crazy Hair Day', desc:'Śmieszne fryzury i nagrody.'}
+        ]
+      },
+      {
+        id:'05', title:'Maj', subtitle:'Festiwal i sport', highlights:[
+          {type:'event', title:'Piknik szkolny / Grill', desc:'Impreza plenerowa dla całej szkoły.'},
+          {type:'sport', title:'Festiwal sportu', desc:'Międzyklasowe zawody i strefy prób.'},
+          {type:'event', title:'Konkurs kulinarny', desc:'Klasy gotują swoje najlepsze potrawy.'}
+        ]
+      },
+      {
+        id:'06', title:'Czerwiec', subtitle:'Finał i podsumowanie', highlights:[
+          {type:'event', title:'Gala SU', desc:'Wręczenie nagród i podsumowanie roku.'},
+          {type:'event', title:'Szkolne Oscary', desc:'Zabawne kategorie i wspólna zabawa.'},
+          {type:'event', title:'Dyskoteka końcoworoczna', desc:'Zakończenie roku z przytupem.'}
+        ]
+      }
+    ];
+
+    // Year-wide initiatives
+    const YEAR_WIDE = [
+      {title:'Szkolne radio / playlisty', desc:'Uczniowskie playlisty i krótkie audycje na przerwach.'},
+      {title:'Podcast SU', desc:'Wywiady z nauczycielami i uczniami — 1 odcinek / miesiąc.'},
+      {title:'Liga E-sportowa', desc:'Comiesięczne rozgrywki i ranking.'},
+      {title:'Sklepik SU', desc:'Bluzy, koszulki, gadżety — projekt i sprzedaż.'},
+      {title:'Eko-akcje', desc:'Stałe zbiórki: baterie, makulatura, nakrętki.'},
+      {title:'Skrzynka pomysłów', desc:'Ciągła: online + fizyczna.'}
+    ];
+
+    // Utils
+    const monthListEl = document.getElementById('monthList');
+    const monthListMobileEl = document.getElementById('monthListMobile');
+    const monthContent = document.getElementById('monthContent');
+    const activeMonthTitle = document.getElementById('activeMonthTitle');
+    const yearWideEl = document.getElementById('yearWide');
+    const activeMonthShort = document.getElementById('activeMonthShort');
+
+    function renderMonthList(){
+      PLAN.forEach((m)=>{
+        const makeItem = ()=>{
+          const el = document.createElement('div');
+          el.className = 'month-item';
+          el.dataset.id = m.id;
+          el.innerHTML = `<div><strong>${m.title}</strong><div class='small'>${m.subtitle}</div></div><div class='small'>${m.highlights.length} akcje</div>`;
+          el.addEventListener('click', ()=>selectMonth(m.id));
+          return el;
+        }
+        monthListEl.appendChild(makeItem());
+        if(monthListMobileEl){ monthListMobileEl.appendChild(makeItem()); }
+      });
+    }
+
+    function selectMonth(id){
+      document.querySelectorAll('.month-item').forEach(x=>x.classList.remove('active'));
+      const node = document.querySelector(`.month-item[data-id='${id}']`);
+      if(node) node.classList.add('active');
+      const M = PLAN.find(x=>x.id===id);
+      activeMonthTitle.textContent = `${M.title} — ${M.subtitle}`;
+      if(activeMonthShort) activeMonthShort.textContent = M.title;
+      renderMonthContent(M);
+    }
+
+    function renderMonthContent(M){
+      monthContent.innerHTML = '';
+      const headerCard = document.createElement('div'); headerCard.className='card';
+      headerCard.innerHTML = `<h2>${M.title} — plan</h2><p class='small'>Lista wydarzeń i inicjatyw w tym miesiącu.</p>`;
+      monthContent.appendChild(headerCard);
+
+      // grid of events
+      const eventsCard = document.createElement('div'); eventsCard.className='card';
+      const grid = document.createElement('div'); grid.className='grid';
+
+      M.highlights.forEach(h=>{
+        const ev = document.createElement('div'); ev.className='event';
+        const goalsHtml = h.goals ? `<div style="margin-top:8px"><strong>Cele:</strong><ul>${h.goals.map(g=>`<li>${g}</li>`).join('')}</ul></div>` : '';
+        ev.innerHTML = `<h3>${h.title}</h3><div class='meta'>Typ: <span class='pill'>${h.type}</span></div><p style='margin-top:8px'>${h.desc||''}</p>${goalsHtml}`;
+        grid.appendChild(ev);
+      });
+
+      eventsCard.appendChild(grid);
+      monthContent.appendChild(eventsCard);
+
+      
+    }
+
+    
+
+    // year-wide render
+    function renderYearWide(){
+      YEAR_WIDE.forEach(y=>{
+        const el = document.createElement('div'); el.className='event'; el.innerHTML = `<h3>${y.title}</h3><p class='small'>${y.desc}</p>`;
+        yearWideEl.appendChild(el);
+      });
+    }
+
+    
+
+    
+
+    // print
+    document.getElementById('printBtn').addEventListener('click', ()=> window.print());
+
+    // init
+    renderMonthList(); renderYearWide(); selectMonth('09');
+
+  </script>
+</body>
+</html>
