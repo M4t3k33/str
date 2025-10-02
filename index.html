@@ -32,7 +32,6 @@
 
     main{display:grid;grid-template-columns:360px 1fr;gap:18px}
 
-    /* sidebar */
     aside{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:16px;border-radius:12px;min-height:520px}
     .month-list{display:flex;flex-direction:column;gap:8px}
     .month-item{display:flex;justify-content:space-between;align-items:center;padding:12px;border-radius:10px;background:var(--glass);cursor:pointer;transition:transform .15s ease, box-shadow .15s ease, outline-color .15s ease}
@@ -40,7 +39,6 @@
     .month-item.active{outline:2px solid rgba(124,58,237,0.28);box-shadow:0 10px 24px rgba(124,58,237,0.12)}
     .small{font-size:13px;color:var(--muted)}
 
-    /* content area */
     section.content{min-height:520px}
     .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:20px;border-radius:14px;margin-bottom:14px;border:1px solid rgba(255,255,255,0.04)}
     .card h2{margin:0 0 6px 0}
@@ -56,7 +54,6 @@
 
     footer{color:var(--muted);font-size:12px;margin-top:8px;text-align:center}
 
-    /* mobile month scroller hidden by default */
     .month-scroller{display:none}
     .month-scroller{position:sticky;top:0;z-index:20}
     .month-scroller .month-list{scroll-snap-type:x mandatory}
@@ -88,7 +85,6 @@
     }
     .month-select{display:none}
 
-    /* responsive */
     @media (max-width:980px){
       main{grid-template-columns:1fr;gap:12px}
       aside{display:none}
@@ -101,7 +97,6 @@
       .btn{width:100%}
     }
 
-    /* mobile tweaks */
     @media (max-width:600px){
       header{flex-direction:column;align-items:flex-start;gap:10px}
       .controls{width:100%;justify-content:stretch}
@@ -119,11 +114,9 @@
       .event{padding:12px}
     }
 
-    /* small animations */
     .fade{animation:fadeIn .28s ease-out}
     @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 
-    /* campaign / printable */
     @media print{body{background:white;color:black} .btn{display:none} header,aside{display:none} .card{box-shadow:none;border:1px solid #00000010}}
   </style>
 </head>
@@ -159,6 +152,17 @@
       </aside>
 
       <section class="content">
+        <div class="card">
+          <h2>O mnie</h2>
+          <p class="small"><strong>Jestem Mateusz Dymowski</strong>, uczeń 2 PI. Sprawię, że ta szkoła zacznie żyć — więcej wydarzeń, lepsza integracja i konkretne działania.</p>
+          <p class="small" style="margin-top:8px"><strong>O mnie w skrócie:</strong></p>
+          <ul class="small" style="margin:6px 0 0 18px">
+            <li>Pasjonuję się programowaniem, grafiką i modelowaniem 3D.</li>
+            <li>Byłem w SU w szkole podstawowej.</li>
+            <li>Obsługa techniczna na zakończeniu lata w Mogielnicy (2024).</li>
+            <li>Oprawa zdjęciowa w ZS Grójec.</li>
+          </ul>
+        </div>
         <div class="card big-actions">
           <div style="flex:1">
             <h2 id="activeMonthTitle">Wybierz miesiąc</h2>
@@ -176,7 +180,6 @@
         <div class="card">
           <h2>Inicjatywy całoroczne</h2>
           <div class="grid" id="yearWide">
-            <!-- items appended by JS -->
           </div>
         </div>
 
@@ -273,7 +276,6 @@
       {title:'Szkolne radio / playlisty', desc:'Uczniowskie playlisty i krótkie audycje na przerwach.'},
       {title:'Podcast SU', desc:'Wywiady z nauczycielami i uczniami — 1 odcinek / miesiąc.'},
       {title:'Liga E-sportowa', desc:'Comiesięczne rozgrywki i ranking.'},
-      {title:'Sklepik SU', desc:'Bluzy, koszulki, gadżety — projekt i sprzedaż.'},
       {title:'Eko-akcje', desc:'Stałe zbiórki: baterie, makulatura, nakrętki.'},
       {title:'Skrzynka pomysłów', desc:'Ciągła: online + fizyczna.'}
     ];
